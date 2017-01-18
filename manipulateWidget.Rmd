@@ -1,0 +1,155 @@
+---
+title: "Rajouter encore plus d'interactivité à un graphique interactif avec `manipulateWidget`"
+author: "François Guillem"
+date: "16/01/2017"
+output: 
+    ioslides_presentation:
+        css: styles.css
+
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(project)
+prStart()
+prLoad("pokedex", trace = FALSE)
+prLoad("resistance", trace = FALSE)
+```
+
+## Qui suis-je ?
+
+<div class="columns-2">
+![](img/moi.png)
+
+- François Guillem
+- fguillem@ludostat.fr
+- Data scientist freelance
+- Fan de jeux vidéo
+
+- Fan de R !
+- Co-créateur de ce meetup
+
+- Actuellement en mission à ![](img/logo-rte.jpg)
+
+</div>
+
+## Pourquoi `manipulateWidget` ?
+
+> - Il est devenu facile de créer des graphiques interactifs dans R avec [htmlwidgets](http://www.htmlwidgets.org/showcase_leaflet.html)
+> - Mais interactivité limitée
+> - On ne peut pas modifier *facilement* les données ou les paramètres d'un graphique de façon interactive
+
+## Qu'est-ce que `manipulateWidget` ?
+
+> - Un package pour créer facilement et rapidement une interface graphique
+> - Avec seulement quelques lignes de code R
+> - Sans avoir besoin de connaitre autre chose que R
+> - Sans créer d'autres fichiers
+
+## Qu'est-ce que `manipulateWidget` ?
+
+- Le plus dur est d'écrire le code qui génère un graphique interactif
+- Une fois fait, on utilise la fonction `manipulateWidget` en indiquant quel paramètre du code doit être modifié par quel type de controle (liste déroulante, champ texte, case à cocher, etc.)
+
+## Exemple
+
+Voici un exemple de code qui génère un histogramme interactif
+
+```{r eval=FALSE, echo=TRUE}
+library(plotly)
+
+mtcarsHist <- function(variable, nbins = 5) {
+  plot_ly() %>% 
+    add_histogram(x = mtcars[, variable], alpha = 0.7, nbinsx = nbins) %>% 
+    layout(
+      title = variable,
+      xaxis = list(title = variable),
+      yaxis = list(title = "Fréquence")
+    )
+} 
+
+mtcarsHist("mpg")
+
+```
+
+
+## Exemple {.flexbox .vcenter}
+
+```{r}
+library(plotly)
+
+mtcarsHist <- function(variable, nbins = 5) {
+  plot_ly() %>% 
+    add_histogram(x = mtcars[, variable], alpha = 0.7, nbinsx = nbins) %>% 
+    layout(
+      title = variable,
+      xaxis = list(title = variable),
+      yaxis = list(title = "Fréquence")
+    )
+} 
+
+mtcarsHist("mpg")
+
+```
+
+## Exemple
+
+On veut choisir de manière interactive la variable à représenter et le nombre de barres.
+
+```{r echo=TRUE, eval=FALSE}
+manipulateWidget(
+  mtcarsHist(variable, nbins),
+  variable = mwSelect(names(mtcars)),
+  nbins = mwSlider(1, 30, value = 5)
+)
+```
+
+## Exemple
+
+```{r}
+manipulateWidget(
+  mtcarsHist(variable, nbins),
+  variable = mwSelect(names(mtcars)),
+  nbins = mwSlider(1, 30, value = 5)
+)
+```
+
+## Principaux types de controles
+
+Fonction  | Type de controle | exemple
+----------|------------------|-----------------------------
+mwText    | champs texte     |`r textInput("a", "","text")`
+mwNumeric | champs numerique | `r numericInput("a", "", 10.5)`
+mwSlider  | curseur simple ou double |  `r sliderInput("a", "", 0, 10, 5)`
+mwSelect  | liste déroulante | `r selectInput("a", "", c("a", "b", "c"))`
+mwCheckbox | case à cocher   | `r checkboxInput("a", "Show legend", TRUE)`
+mwDate    | calendrier       | `r dateInput("a", "", Sys.Date())`
+
+## D'autres fonctionalités bien sympathiques
+
+Avec quelques lignes de code R en plus on peut :
+
+- **Grouper des controles**
+- **Afficher/masquer un controle** en fonction de la valeur des autres controles
+- **Modifier un controle** en fonction de la valeur des autres controles
+- **Comparer** le même graphique avec différentes valeurs de paramètres
+
+La fonction `combineWidgets` permet de combiner plusieurs graphiques interactifs
+
+# Démonstration
+
+## Conclusion
+
+### Avantages
+- Simplicité
+- Rapidité
+- Accès à des fonctionalités avancées avec très peu de code
+
+### Pour qui ?
+- **Utilisateurs finaux :** créer en quelques lignes des outils facilitant l'exploration de données et l'analyse de résultats.
+- **Développeurs :** création d'interfaces graphiques faciles à maintenir et à faire évoluer.
+
+## Vous aimez la bière ?{#mcb}
+
+Venez au [meetup My Community Beer](https://www.meetup.com/fr-FR/My-Community-Beer/events/236708852/) le 6 Février
