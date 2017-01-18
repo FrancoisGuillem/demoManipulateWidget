@@ -13,8 +13,6 @@ runtime: shiny
 knitr::opts_chunk$set(echo = FALSE)
 library(project)
 prStart()
-prLoad("pokedex", trace = FALSE)
-prLoad("resistance", trace = FALSE)
 ```
 
 ## Qui suis-je ?
