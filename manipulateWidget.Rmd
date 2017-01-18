@@ -137,6 +137,10 @@ La fonction `combineWidgets` permet de combiner plusieurs graphiques interactifs
 
 # Démonstration
 
+## Exemple d'utilisation à RTE
+
+![](img/rte_map.png)
+
 ## Conclusion
 
 ### Avantages
@@ -147,6 +151,16 @@ La fonction `combineWidgets` permet de combiner plusieurs graphiques interactifs
 ### Pour qui ?
 - **Utilisateurs finaux :** créer en quelques lignes des outils facilitant l'exploration de données et l'analyse de résultats.
 - **Développeurs :** création d'interfaces graphiques faciles à maintenir et à faire évoluer.
+
+##
+
+### Package disponible sur le CRAN
+
+### Code source disponible sur Github :
+https://github.com/rte-antares-rpackage/manipulateWidget
+
+### Bugs, requêtes et suggestions :
+https://github.com/rte-antares-rpackage/manipulateWidget/issues
 
 ## Vous aimez la bière ?{#mcb}
 
